@@ -18,8 +18,10 @@ interface WalletData {
 
 interface Transaction {
   _id: string
-  type: string
   amount: number
+  t_type: "Credit" | "Debit"
+  ben_number?: string
+  description?: string
   date: string
 }
 
