@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-// Utility functions remain the same
+// Utility functions
 function buildApiUrl(route: string[], search: string): string {
   const baseUrl = process.env.API_URL || "http://localhost:5000"
   const joinedRoute = route?.join("/") || ""
@@ -20,9 +20,13 @@ async function parseJsonResponse(response: Response) {
   }
 }
 
-// 💡 Await the `context` param and then access `params`
-export async function GET(request: NextRequest, context: Promise<{ params: { route?: string[] } }>) {
-  const { params } = await context
+// Define the context type for Next.js 15
+type RouteContext = {
+  params: Promise<{ route?: string[] }>
+}
+
+export async function GET(request: NextRequest, context: RouteContext) {
+  const params = await context.params
   const url = buildApiUrl(params?.route || [], request.nextUrl.search)
   const headers = buildHeaders(request)
 
@@ -39,8 +43,8 @@ export async function GET(request: NextRequest, context: Promise<{ params: { rou
   }
 }
 
-export async function POST(request: NextRequest, context: Promise<{ params: { route?: string[] } }>) {
-  const { params } = await context
+export async function POST(request: NextRequest, context: RouteContext) {
+  const params = await context.params
   const url = buildApiUrl(params?.route || [], "")
   const headers = buildHeaders(request)
   headers.set("Content-Type", "application/json")
@@ -61,8 +65,8 @@ export async function POST(request: NextRequest, context: Promise<{ params: { ro
   }
 }
 
-export async function PUT(request: NextRequest, context: Promise<{ params: { route?: string[] } }>) {
-  const { params } = await context
+export async function PUT(request: NextRequest, context: RouteContext) {
+  const params = await context.params
   const url = buildApiUrl(params?.route || [], "")
   const headers = buildHeaders(request)
   headers.set("Content-Type", "application/json")
@@ -83,8 +87,8 @@ export async function PUT(request: NextRequest, context: Promise<{ params: { rou
   }
 }
 
-export async function DELETE(request: NextRequest, context: Promise<{ params: { route?: string[] } }>) {
-  const { params } = await context
+export async function DELETE(request: NextRequest, context: RouteContext) {
+  const params = await context.params
   const url = buildApiUrl(params?.route || [], "")
   const headers = buildHeaders(request)
 
