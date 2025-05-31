@@ -20,13 +20,12 @@ async function parseJsonResponse(response: Response) {
   }
 }
 
-// Define the context type for Next.js 15
-type RouteContext = {
-  params: Promise<{ route?: string[] }>
+// Fixed context type for Next.js 15
+interface RouteContext {
+  params: { route?: string[] }
 }
 
-export async function GET(request: NextRequest, context: RouteContext) {
-  const params = await context.params
+export async function GET(request: NextRequest, { params }: RouteContext) {
   const url = buildApiUrl(params?.route || [], request.nextUrl.search)
   const headers = buildHeaders(request)
 
@@ -43,8 +42,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
   }
 }
 
-export async function POST(request: NextRequest, context: RouteContext) {
-  const params = await context.params
+export async function POST(request: NextRequest, { params }: RouteContext) {
   const url = buildApiUrl(params?.route || [], "")
   const headers = buildHeaders(request)
   headers.set("Content-Type", "application/json")
@@ -65,8 +63,7 @@ export async function POST(request: NextRequest, context: RouteContext) {
   }
 }
 
-export async function PUT(request: NextRequest, context: RouteContext) {
-  const params = await context.params
+export async function PUT(request: NextRequest, { params }: RouteContext) {
   const url = buildApiUrl(params?.route || [], "")
   const headers = buildHeaders(request)
   headers.set("Content-Type", "application/json")
@@ -87,8 +84,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
   }
 }
 
-export async function DELETE(request: NextRequest, context: RouteContext) {
-  const params = await context.params
+export async function DELETE(request: NextRequest, { params }: RouteContext) {
   const url = buildApiUrl(params?.route || [], "")
   const headers = buildHeaders(request)
 

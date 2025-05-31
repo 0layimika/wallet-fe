@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { useAuth } from "@/hooks/use-auth"
@@ -133,10 +135,30 @@ export default function DashboardPage() {
 
       {/* Overview Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <OverviewCard title="Account Balance" icon={<DollarSign />} value={`₦${wallet?.balance?.toLocaleString() || "0.00"}`} subtitle="Available for transactions" />
-        <OverviewCard title="Account Number" icon={<CreditCard />} value={user?.account_number || "N/A"} subtitle="Your unique account ID" />
-        <OverviewCard title="Beneficiaries" icon={<Users />} value={(user?.beneficiary?.length || 0).toString()} subtitle="Saved accounts" />
-        <OverviewCard title="Profile Status" icon={<User />} value={user?.verified ? "Verified" : "Unverified"} subtitle="Account verification status" />
+        <OverviewCard
+          title="Account Balance"
+          icon={<DollarSign />}
+          value={`₦${wallet?.balance?.toLocaleString() || "0.00"}`}
+          subtitle="Available for transactions"
+        />
+        <OverviewCard
+          title="Account Number"
+          icon={<CreditCard />}
+          value={user?.account_number || "N/A"}
+          subtitle="Your unique account ID"
+        />
+        <OverviewCard
+          title="Beneficiaries"
+          icon={<Users />}
+          value={(user?.beneficiary?.length || 0).toString()}
+          subtitle="Saved accounts"
+        />
+        <OverviewCard
+          title="Profile Status"
+          icon={<User />}
+          value={user?.verified ? "Verified" : "Unverified"}
+          subtitle="Account verification status"
+        />
       </div>
 
       {/* Transactions & Beneficiaries */}
@@ -147,7 +169,7 @@ export default function DashboardPage() {
             <CardDescription>Your latest financial activities</CardDescription>
           </CardHeader>
           <CardContent>
-            {wallet?.transactions?.length > 0 ? (
+            {wallet?.transactions && wallet.transactions.length > 0 ? (
               <TransactionList transactions={wallet.transactions.slice(0, 5)} />
             ) : (
               <p className="text-center py-8 text-muted-foreground">No transactions yet</p>
