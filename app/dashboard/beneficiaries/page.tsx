@@ -24,7 +24,7 @@ const beneficiarySchema = z.object({
 type BeneficiaryFormValues = z.infer<typeof beneficiarySchema>
 
 export default function BeneficiariesPage() {
-  const { token, user, refreshUser } = useAuth()
+  const { token,refreshUser } = useAuth()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
